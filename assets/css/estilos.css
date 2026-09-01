@@ -228,3 +228,7 @@ footer div {
 footer p {
     font-size: 0.9rem;
 }
+input, textarea, select {
+    text-transform: none;
+    color: #0A0A0A;
+}

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Huerto Orgánico - Inicio</title>
-    <<link rel="stylesheet" href="assets/css/estilos.css">
+    <link rel="stylesheet" href="assets/css/estilos.css">
 </head>
 <body>
     <header>
@@ -15,7 +15,7 @@
             <ul>
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="nosotros.html">Nosotros</a></li>
-                <li><a href="registros.html">Registro</a></li>
+                <li><a href="registro.html">Registro</a></li>
                 <li><a href="carrito.html">Carrito</a></li>
             </ul>
         </nav>
@@ -26,15 +26,15 @@
             <h2>Bienvenidos a Nuestro Huerto</h2>
             <p>Productos 100% orgánicos, cultivados sin pesticidas ni químicos, directamente a tu mesa.</p>
             <div class="video-container">
-    <iframe 
-        width="560" 
-        height="315" 
-        src="https://www.youtube.com/embed/rm9coqlk8fY" 
-        title="Video Huerto Orgánico" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-    </iframe>
+                <iframe 
+                    width="560" 
+                    height="315" 
+                    src="https://www.youtube.com/embed/rm9coqlk8fY" 
+                    title="Video Huerto Orgánico" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
             </div>
         </section>
 
@@ -48,7 +48,7 @@
 
         <section>
             <h2>Productos Destacados</h2>
-            <div>
+            <div id="contenedor-productos">
                 <article>
                     <img src="assets/img/espinaca.jpg" alt="Espinaca Orgánica Fresca">
                     <h3>Espinaca Orgánica</h3>
@@ -72,6 +72,7 @@
                     <p>$4.500</p>
                     <button data-id="3">Agregar al Carrito</button>
                 </article>
+
                 <article>
                     <img src="assets/img/naranja.jpg" alt="Naranjas">
                     <h3>Naranjas (1000g)</h3>
@@ -79,6 +80,7 @@
                     <p>$2.000</p>
                     <button data-id="4">Agregar al Carrito</button>
                 </article>
+
                 <article>
                     <img src="assets/img/zanahoria.jpg" alt="Zanahoria">
                     <h3>Zanahoria (5 Grandes)</h3>
@@ -86,18 +88,18 @@
                     <p>$1.400</p>
                     <button data-id="5">Agregar al Carrito</button>
                 </article>
-
-
             </div>
         </section>
     </main>
 
     <footer>
         <div>
-            <p> 2026 Huerto Orgánico. Todos los derechos reservados.</p>
+            <p>&copy; 2026 Huerto Orgánico. Todos los derechos reservados.</p>
             <p>Contacto: contacto@huertoorganico.cl | Teléfono: +56 9 6767 6767</p>
-            <p>Ubicación: Parcela 67, Paine , Chile</p>
+            <p>Ubicación: Parcela 67, Paine, Chile</p>
         </div>
     </footer>
+
+    <script src="assets/js/script.js"></script>
 </body>
 </html>
