@@ -12,6 +12,7 @@ Proyecto e-commerce desarrollado para la asignatura Desarrollo Fullstack II.
 
 **Estructura del Proyecto**
 
+<pre>
 Evaluacion1/
 ├── assets/
 │   ├── css/
@@ -24,3 +25,4 @@ Evaluacion1/
 ├── registro.html
 ├── carrito.html
 └── README.md
+</pre>
