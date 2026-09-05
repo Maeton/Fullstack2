@@ -61,7 +61,38 @@ const productos = [
         categoria: "Productos Orgánicos",
         img: "assets/img/miel.jpg",
         descripcion: "Miel pura y orgánica producida por apicultores locales."
-    }
+    },
+
+    {
+        id: "FR004",
+        nombre: "Pomelo",
+        precio: 2150,
+        stock: 50,
+        categoria: "Frutas Frescas",
+        img: "assets/img/pomelo.jpg",
+        descripcion: "Pomelo fresco y jugoso, ideal para zumos y ensaladas."
+    },
+
+    {
+        id: "VR004",
+        nombre: "Champiñones",
+        precio: 1590,
+        stock: 50,
+        categoria: "Verduras Orgánicas",
+        img: "assets/img/champiñones.jpg",
+        descripcion: "Champiñones frescos y sabrosos, ideales para ensaladas y platos principales."
+    },
+
+    {
+        id: "VR005",
+        nombre: "Aguacate",
+        precio: 6290,
+        stock: 50,
+        categoria: "Verduras Orgánicas",
+        img: "assets/img/aguacate.jpg",
+        descripcion: "Aguacate fresco y cremoso, ideal para ensaladas y guacamole."
+    },
+
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
