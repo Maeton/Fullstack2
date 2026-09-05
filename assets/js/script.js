@@ -273,6 +273,15 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 errorTelefono.textContent = '';
             }
+            
+            const errorDireccion = document.getElementById('error-direccion');
+            if (direccion.length < 5) {
+                errorDireccion.textContent = 'La dirección debe tener al menos 5 caracteres.';
+                direccionInput.focus();
+                return;
+            } else {
+                errorDireccion.textContent = '';
+            }
 
           
 
