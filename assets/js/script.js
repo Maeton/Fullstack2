@@ -194,29 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const setupDiscount = () => {
-        if (!window.location.pathname.includes('carrito.html')) return;
 
-        const discountForm = document.querySelector('main section:nth-child(2) #form-busqueda');
-        if (!discountForm) return;
-
-        const discountInput = discountForm.querySelector('input');
-        const discountBtn = discountForm.querySelector('button');
-
-        if (!discountInput || !discountBtn) return;
-
-        discountBtn.addEventListener('click', () => {
-            const code = discountInput.value.trim().toUpperCase();
-            if (code === 'HUERTO10') {
-                alert('¡Código activado! 10% de descuento aplicado.');
-                discountInput.value = '';
-            } else if (code === '') {
-                alert('Ingresa un código válido.');
-            } else {
-                alert('Código no válido.');
-            }
-        });
-    };
 
     const setupCheckout = () => {
         if (!window.location.pathname.includes('carrito.html')) return;
@@ -284,7 +262,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCatalog();
     renderCart();
     setupSearch();
-    setupDiscount();
     setupCheckout();
     setupRegistrationForm();
 });
