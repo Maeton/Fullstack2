@@ -26,51 +26,62 @@
 
     <main>
         <section>
-            <h2>Crear Cuenta</h2>
-            <p>Ingresa tus datos para gestionar tu perfil, compras y direcciones de despacho.</p>
+            <div class="registro-layout">
+                <div class="registro-contenido">
+                    <h2>Crear Cuenta</h2>
+                    <p>Ingresa tus datos para gestionar tu perfil, compras y direcciones de despacho.</p>
+                    <article>
+                        <h3>¿Por qué crear una cuenta?</h3>
+                        <p>Guarda tus direcciones de despacho, revisa el historial de tus pedidos y recibe ofertas exclusivas para productos orgánicos.</p>
+                    </article>
 
-            <article>
-                <h3>¿Por qué crear una cuenta?</h3>
-                <p>Guarda tus direcciones de despacho, revisa el historial de tus pedidos y recibe ofertas exclusivas para productos orgánicos.</p>
-            </article>
+                    <form id="form-registro" novalidate class="form-registro">
+                        <div>
+                            <label for="nombre" class="form-label">Nombre Completo</label>
+                            <input type="text" id="nombre" name="nombre" class="form-input" required autocomplete="name">
+                            <span id="error-nombre" class="error-mensaje"></span>
+                        </div>
 
-            <form id="form-registro" novalidate class="form-registro">
-                <div>
-                    <label for="nombre" class="form-label">Nombre Completo</label>
-                    <input type="text" id="nombre" name="nombre" class="form-input" required autocomplete="name">
-                    <span id="error-nombre" class="error-mensaje"></span>
+                        <div>
+                            <label for="email" class="form-label">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" class="form-input" required autocomplete="email">
+                            <span id="error-email" class="error-mensaje"></span>
+                        </div>
+
+                        <div>
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" id="password" name="password" class="form-input" required autocomplete="new-password">
+                            <span id="error-password" class="error-mensaje"></span>
+                        </div>
+
+                        <div>
+                            <label for="telefono" class="form-label">Teléfono de Contacto</label>
+                            <input type="tel" id="telefono" name="telefono" class="form-input" placeholder="+56912345678" required autocomplete="tel">
+                            <span id="error-telefono" class="error-mensaje"></span>
+                        </div>
+
+                        <div>
+                            <label for="direccion" class="form-label">Dirección de Entrega</label>
+                            <input type="text" id="direccion" name="direccion" class="form-input" placeholder="Calle, número, comuna y ciudad" required autocomplete="street-address">
+                            <span id="error-direccion" class="error-mensaje"></span>
+                        </div>
+
+                        <button type="submit" class="form-button">
+                            Registrar Cuenta
+                        </button>
+
+                    </form>
                 </div>
 
-                <div>
-                    <label for="email" class="form-label">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" class="form-input" required autocomplete="email">
-                    <span id="error-email" class="error-mensaje"></span>
-                </div>
+                <img src="assets/img/pasos-registro.jpg" alt="Pasos para crear tu cuenta en Huerto Orgánico" class="imagen-registro">
 
-                <div>
-                    <label for="password" class="form-label">Contraseña</label>
-                    <input type="password" id="password" name="password" class="form-input" required autocomplete="new-password">
-                    <span id="error-password" class="error-mensaje"></span>
-                </div>
-
-                <div>
-                    <label for="telefono" class="form-label">Teléfono de Contacto</label>
-                    <input type="tel" id="telefono" name="telefono" class="form-input" placeholder="+56912345678" required autocomplete="tel">
-                    <span id="error-telefono" class="error-mensaje"></span>
-                </div>
-
-                <div>
-                    <label for="direccion" class="form-label">Dirección de Entrega</label>
-                    <input type="text" id="direccion" name="direccion" class="form-input" placeholder="Calle, número, comuna y ciudad" required autocomplete="street-address">
-                    <span id="error-direccion" class="error-mensaje"></span>
-                </div>
-
-                <button type="submit" class="form-button">
-                    Registrar Cuenta
-                </button>
-            </form>
+            </div>
         </section>
     </main>
+
+
+
+
 
     <footer>
         <div>

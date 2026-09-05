@@ -231,6 +231,39 @@ article button:hover {
     gap: 1.5rem;
 }
 
+.registro-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(240px, 2fr);
+    align-items: start;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+.registro-contenido {
+    min-width: 0;
+}
+
+.imagen-registro {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    display: block;
+    position: sticky;
+    top: 2rem;
+}
+
+@media (max-width: 800px) {
+    .registro-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .imagen-registro {
+        position: static;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
 .video-container {
     position: relative;
     padding-bottom: 56.25%;
