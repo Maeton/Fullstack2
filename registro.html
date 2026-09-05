@@ -26,7 +26,7 @@
             <h2>Crear Cuenta</h2>
             <p>Ingresa tus datos para gestionar tu perfil, compras y direcciones de despacho.</p>
 
-            <form id="form-registro" style="max-width: 600px; margin-top: 2rem; display: flex; flex-direction: column; gap: 1.5rem;">
+            <form id="form-registro" novalidate style="max-width: 600px; margin-top: 2rem; display: flex; flex-direction: column; gap: 1.5rem;">
                 <div>
                     <label for="nombre" style="display: block; font-weight: 700; margin-bottom: 0.5rem;">Nombre Completo</label>
                     <input type="text" id="nombre" name="nombre" required style="width: 100%; padding: 0.8rem; background: transparent; border: 2px solid #0A0A0A; font-family: inherit; font-size: 1rem;">
@@ -36,6 +36,7 @@
                 <div>
                     <label for="email" style="display: block; font-weight: 700; margin-bottom: 0.5rem;">Correo Electrónico</label>
                     <input type="email" id="email" name="email" required style="width: 100%; padding: 0.8rem; background: transparent; border: 2px solid #0A0A0A; font-family: inherit; font-size: 1rem;">
+                    <span id="error-email" class="error-mensaje"></span>
                 </div>
 
                 <div>
@@ -47,11 +48,13 @@
                 <div>
                     <label for="telefono" style="display: block; font-weight: 700; margin-bottom: 0.5rem;">Teléfono de Contacto</label>
                     <input type="tel" id="telefono" name="telefono" placeholder="+56912345678" required style="width: 100%; padding: 0.8rem; background: transparent; border: 2px solid #0A0A0A; font-family: inherit; font-size: 1rem;">
+                    <span id="error-telefono" class="error-mensaje"></span>
                 </div>
 
                 <div>
                     <label for="direccion" style="display: block; font-weight: 700; margin-bottom: 0.5rem;">Dirección de Entrega</label>
                     <input type="text" id="direccion" name="direccion" placeholder="Calle, número, comuna y ciudad" required style="width: 100%; padding: 0.8rem; background: transparent; border: 2px solid #0A0A0A; font-family: inherit; font-size: 1rem;">
+                    <span id="error-direccion" class="error-mensaje"></span>
                 </div>
 
                 <button type="submit" style="background-color: #0A0A0A; color: #E2DFD8; border: 2px solid #0A0A0A; padding: 1rem; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.15em; cursor: pointer; text-transform: uppercase;">

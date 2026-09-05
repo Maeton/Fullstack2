@@ -255,6 +255,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorPassword.textContent = '';
             }
 
+            const errorEmail = document.getElementById('error-email');
+            if (!emailInput.checkValidity()) {
+                errorEmail.textContent = 'Ingresa un correo válido (ejemplo: nombre@dominio.com).';
+                emailInput.focus();
+                return;
+            } else {
+                errorEmail.textContent = '';
+            }
+            const errorTelefono = document.getElementById('error-telefono');
+            const regexTelefono = /^\+56[0-9]{9}$/;
+
+            if (!regexTelefono.test(telefono)) {
+                errorTelefono.textContent = 'Ingresa un teléfono válido (formato: +56912345678).';
+                telefonoInput.focus();
+                return;
+            } else {
+                errorTelefono.textContent = '';
+            }
+
           
 
             const userData = { nombre, email, telefono, direccion };
