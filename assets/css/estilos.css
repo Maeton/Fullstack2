@@ -280,3 +280,19 @@ input, textarea, select {
     text-transform: none;
     color: #0A0A0A;
 }
+
+.logo-sitio {
+    width: 50px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.marca-sitio {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.marca-sitio h1 {
+    margin: 0;
+}
