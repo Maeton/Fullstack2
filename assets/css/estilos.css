@@ -204,6 +204,26 @@ article button:hover {
     font-family: inherit;
     font-size: 1rem;
 }
+.form-button {
+    background-color: #0A0A0A;
+    color: #E2DFD8;
+    border: 2px solid #0A0A0A;
+    padding: 1rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.form-registro {
+    max-width: 600px;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
 
 .video-container {
     position: relative;
