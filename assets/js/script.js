@@ -88,7 +88,7 @@ const productos = [
         nombre: "Aguacate",
         precio: 6290,
         stock: 50,
-        categoria: "Verduras Orgánicas",
+        categoria: "Frutas Frescas",
         img: "assets/img/aguacate.jpg",
         descripcion: "Aguacate fresco y cremoso, ideal para ensaladas y guacamole."
     },
