@@ -170,6 +170,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    const normalizarTexto = (texto) => {
+        return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
     const setupSearch = () => {
         const searchForm = document.getElementById('form-busqueda');
         if (!searchForm) return;
@@ -180,11 +184,11 @@ document.addEventListener('DOMContentLoaded', () => {
         searchForm.addEventListener('submit', (e) => e.preventDefault());
 
         searchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase().trim();
+            const query = normalizarTexto(e.target.value.toLowerCase().trim());
             const articles = document.querySelectorAll('#contenedor-productos article');
 
             articles.forEach(article => {
-                const title = article.querySelector('h3')?.innerText.toLowerCase() || '';
+                const title = normalizarTexto(article.querySelector('h3')?.innerText.toLowerCase() || '');
                 if (title.includes(query)) {
                     article.style.display = '';
                 } else {
