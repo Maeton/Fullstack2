@@ -75,7 +75,7 @@ const productos = [
 
     {
         id: "VR004",
-        nombre: "Champiñones",
+        nombre: "Champiñones Bandeja",
         precio: 1590,
         stock: 50,
         categoria: "Verduras Orgánicas",
@@ -84,13 +84,33 @@ const productos = [
     },
 
     {
-        id: "VR005",
+        id: "FR005",
         nombre: "Aguacate",
         precio: 6290,
         stock: 50,
         categoria: "Frutas Frescas",
         img: "assets/img/aguacate.jpg",
         descripcion: "Aguacate fresco y cremoso, ideal para ensaladas y guacamole."
+    },
+
+    {
+        id: "FR006",
+        nombre: "Mango",
+        precio: 2990,
+        stock: 50,
+        categoria: "Frutas Frescas",
+        img: "assets/img/mango.jpg",
+        descripcion: "Mango fresco y jugoso, ideal para postres y ensaladas."
+    },
+
+    {
+        id: "VR005",
+        nombre: "Champiñones Shitake Bandeja",
+        precio: 1490,
+        stock: 50,
+        categoria: "Verduras Orgánicas",
+        img: "assets/img/champiñones-shitake.jpg",
+        descripcion: "Champiñones Shitake frescos y sabrosos, ideales para ensaladas y platos principales."
     },
 
 ];
