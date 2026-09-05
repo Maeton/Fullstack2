@@ -227,6 +227,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const telefonoInput = document.getElementById('telefono');
             const direccionInput = document.getElementById('direccion');
 
+            const errorNombre = document.getElementById('error-nombre');
+            const errorPassword = document.getElementById('error-password');
+
             const nombre = nombreInput.value.trim();
             const email = emailInput.value.trim();
             const password = passwordInput.value;
@@ -234,18 +237,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const direccion = direccionInput ? direccionInput.value.trim() : '';
 
             if (nombre.length < 3) {
-                alert('El nombre debe tener al menos 3 caracteres.');
+                errorNombre.textContent = 'El nombre debe tener al menos 3 caracteres.';
                 nombreInput.focus();
+                passwordInput.value = '';
                 return;
+            } else {
+                errorNombre.textContent = '';
             }
 
             
 
             if (password.length < 6) {
-                alert('La contraseña debe tener al menos 6 caracteres.');
-                passwordInput.value = '';
+                errorPassword.textContent = 'La contraseña debe tener al menos 6 caracteres.';
                 passwordInput.focus();
                 return;
+            } else {
+                errorPassword.textContent = '';
             }
 
           

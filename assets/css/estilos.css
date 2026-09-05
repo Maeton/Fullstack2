@@ -209,6 +209,14 @@ article button:hover {
     border: 0;
 }
 
+.error-mensaje {
+    display: block;
+    color: #b91c1c;
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+}
+
+
 footer {
     background-color: #111a13;
     color: #a3b3a6;
