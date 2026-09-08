@@ -1,4 +1,4 @@
-# Huerto Orgánico - Evaluación Parcial 1
+# Huerto Hogar - Evaluación Parcial 1
 
 Proyecto e-commerce desarrollado para la asignatura Desarrollo Fullstack II, basado en el caso HuertoHogar: tienda online de productos frescos y orgánicos con despacho a domicilio.
 
