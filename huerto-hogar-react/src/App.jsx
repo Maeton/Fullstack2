@@ -1,12 +1,12 @@
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
-import Inicio from "./pages/Inicio.jsx";
+import Catalogo from "./pages/Catalogo.jsx";
 
 export default function App() {
   return (
     <>
       <Header />
-      <Inicio />
+      <Catalogo />
       <Footer />
     </>
   );

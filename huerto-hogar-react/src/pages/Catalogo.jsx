@@ -1,22 +1,27 @@
-import Header from "./components/header.jsx";
-import Footer from "./components/Footer.jsx";
-export default function Catalogo() {
-  return (<>
-    <Header/>
-    <main>
-      <section>
-        <h2>Sobre Nosotros</h2>
+import productos from "../data/productos.js";
+import ProductoCard from "../components/ProductoCard.jsx";
 
-        <p>
-          Somos un emprendimiento dedicado a la producción y
-          distribución de alimentos 100% orgánicos en la zona
-          central de Chile. Nuestro proyecto nace en Paine con
-          la misión de promover un estilo de vida saludable
-          y libre de químicos.
-        </p>
+export default function Catalogo() {
+  const frutas = productos.filter(
+    (producto) => producto.categoria === "Frutas"
+  );
+
+  return (
+    <main className="container huerto-main">
+      <section className="huerto-section">
+        <h2>Catálogo de frutas</h2>
+
+        <div className="row g-4">
+          {frutas.map((producto) => (
+            <div
+              className="col-12 col-md-6 col-lg-4"
+              key={producto.id}
+            >
+              <ProductoCard producto={producto} />
+            </div>
+          ))}
+        </div>
       </section>
     </main>
-    <Footer/>
-    </>
   );
 }
