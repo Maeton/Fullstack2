@@ -1,9 +1,33 @@
+import videoHuerto from "./assets/vid/Huerto-Hogar-promocional.mp4";
+import Header from "./components/header.jsx";
+import Footer from "./components/Footer.jsx";
+
+
 function App() {
   return (
+    <>
+    <Header/>
     <main>
-      <h1>Huerto Hogar</h1>
-      <p>Bienvenido a nuestra tienda de productos orgánicos.</p>
+      <section>
+    
+      
+        <p>
+          Productos 100% orgánicos, cultivados de manera natural
+          y sostenible, sin pesticidas ni químicos. Frescura y
+          calidad directamente del huerto a tu mesa.
+        </p>
+
+
+        <video src={videoHuerto} controls width="640">
+  Tu navegador no puede reproducir este video.
+</video>
+
+
+
+      </section>
     </main>
+    <Footer/>
+    </>
   );
 }
 
