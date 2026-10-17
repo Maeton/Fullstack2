@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 const CLAVE_CARRITO = "huerto_cart";
+const MAX_CANTIDAD = 5;
 
 function leerCarrito() {
   try {
@@ -8,15 +9,20 @@ function leerCarrito() {
 
     if (!Array.isArray(datos)) return [];
 
-    return datos.filter(
-      (producto) =>
-        typeof producto.id === "string" &&
-        typeof producto.name === "string" &&
-        Number.isFinite(producto.price) &&
-        producto.price >= 0 &&
-        Number.isInteger(producto.quantity) &&
-        producto.quantity > 0
-    );
+    return datos
+      .filter(
+        (producto) =>
+          typeof producto.id === "string" &&
+          typeof producto.name === "string" &&
+          Number.isFinite(producto.price) &&
+          producto.price >= 0 &&
+          Number.isInteger(producto.quantity) &&
+          producto.quantity > 0
+      )
+      .map((producto) => ({
+        ...producto,
+        quantity: Math.min(producto.quantity, MAX_CANTIDAD),
+      }));
   } catch {
     return [];
   }
@@ -48,16 +54,35 @@ export default function Carrito() {
     0
   );
 
-  function eliminarProducto(id) {
+  function cambiarCantidad(id, valor) {
+    const cantidad = Number(valor);
+
+    if (
+      !Number.isInteger(cantidad) ||
+      cantidad < 0 ||
+      cantidad > MAX_CANTIDAD
+    ) {
+      return;
+    }
+
     setMensaje("");
-    setCarrito((actual) => actual.filter((producto) => producto.id !== id));
+
+    setCarrito((actual) =>
+      actual
+        .map((producto) =>
+          producto.id === id
+            ? { ...producto, quantity: cantidad }
+            : producto
+        )
+        .filter((producto) => producto.quantity > 0)
+    );
   }
 
   function finalizarCompra() {
     if (carrito.length === 0) return;
 
     setCarrito([]);
-    setMensaje("Compra de demostración finalizada. Gracias por tu pedido.");
+    setMensaje("Compra finalizada. Gracias por tu pedido.");
   }
 
   return (
@@ -84,24 +109,54 @@ export default function Carrito() {
             carrito.map((producto) => (
               <div className="col-12 col-md-6" key={producto.id}>
                 <article className="huerto-panel h-100">
+                  {producto.img && (
+                    <img
+                      src={producto.img}
+                      alt={producto.name}
+                      className="img-fluid rounded mb-3"
+                      loading="lazy"
+                      style={{
+                        width: "100%",
+                        height: "180px",
+                        objectFit: "cover",
+                      }}
+                    />
+                  )}
+
                   <h3>{producto.name}</h3>
 
-                  <p>Precio: {formatoPrecio(producto.price)}</p>
-                  <p>Cantidad: {producto.quantity}</p>
+                  <p>Precio por kilo: {formatoPrecio(producto.price)}</p>
+
+                  <div className="mb-3">
+                    <label
+                      htmlFor={`cantidad-${producto.id}`}
+                      className="form-label"
+                    >
+                      Cantidad
+                    </label>
+
+                    <select
+                      id={`cantidad-${producto.id}`}
+                      className="form-select"
+                      value={producto.quantity}
+                      onChange={(evento) =>
+                        cambiarCantidad(producto.id, evento.target.value)
+                      }
+                    >
+                      <option value={0}>0 — Eliminar del carrito</option>
+
+                      {[1, 2, 3, 4, 5].map((cantidad) => (
+                        <option key={cantidad} value={cantidad}>
+                          {cantidad === 1 ? "1 kilo" : `${cantidad} kilos`}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
                   <p className="fw-bold">
                     Subtotal:{" "}
                     {formatoPrecio(producto.price * producto.quantity)}
                   </p>
-
-                  <button
-                    type="button"
-                    className="btn btn-outline-danger"
-                    aria-label={`Eliminar ${producto.name} del carrito`}
-                    onClick={() => eliminarProducto(producto.id)}
-                  >
-                    Eliminar
-                  </button>
                 </article>
               </div>
             ))
@@ -112,16 +167,14 @@ export default function Carrito() {
       <section className="huerto-section">
         <h3 aria-live="polite">Total: {formatoPrecio(total)}</h3>
 
-        <div>
-          <button
-            type="button"
-            className="btn btn-huerto"
-            disabled={carrito.length === 0}
-            onClick={finalizarCompra}
-          >
-            Finalizar compra de demostración
-          </button>
-        </div>
+        <button
+          type="button"
+          className="btn btn-huerto"
+          disabled={carrito.length === 0}
+          onClick={finalizarCompra}
+        >
+          Finalizar compra
+        </button>
       </section>
     </main>
   );

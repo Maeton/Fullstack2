@@ -61,10 +61,6 @@ export default function ProductoCard({ producto }) {
           })}
         </p>
 
-        <p className="card-text">
-          Disponibles: {producto.stock}
-        </p>
-
         <button
           type="button"
           className="btn btn-huerto"
