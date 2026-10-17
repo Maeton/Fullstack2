@@ -1,18 +1,26 @@
 import { useState } from "react";
 
+const MAX_CANTIDAD = 5;
+const CLAVE_CARRITO = "huerto_cart";
+
 export default function ProductoCard({ producto }) {
   const [mensaje, setMensaje] = useState("");
 
   function agregarAlCarrito() {
     try {
-      const datos = JSON.parse(localStorage.getItem("huerto_cart"));
+      const datos = JSON.parse(localStorage.getItem(CLAVE_CARRITO));
       const carrito = Array.isArray(datos) ? datos : [];
 
       const existente = carrito.find((item) => item.id === producto.id);
       const cantidadActual = existente?.quantity ?? 0;
+      const limite = Math.min(MAX_CANTIDAD, producto.stock);
 
-      if (cantidadActual >= producto.stock) {
-        setMensaje("No hay más unidades disponibles.");
+      if (cantidadActual >= limite) {
+        setMensaje(
+          limite === MAX_CANTIDAD
+            ? "Puedes agregar un máximo de 5 kilos por producto."
+            : "No hay más cantidad disponible de este producto."
+        );
         return;
       }
 
@@ -33,8 +41,8 @@ export default function ProductoCard({ producto }) {
             },
           ];
 
-      localStorage.setItem("huerto_cart", JSON.stringify(actualizado));
-      setMensaje("Producto agregado al carrito.");
+      localStorage.setItem(CLAVE_CARRITO, JSON.stringify(actualizado));
+      setMensaje("Se agregó 1 kilo al carrito.");
     } catch {
       setMensaje("No se pudo actualizar el carrito.");
     }
@@ -59,6 +67,7 @@ export default function ProductoCard({ producto }) {
             style: "currency",
             currency: "CLP",
           })}
+          {" / kilo"}
         </p>
 
         <button
@@ -66,7 +75,7 @@ export default function ProductoCard({ producto }) {
           className="btn btn-huerto"
           disabled={producto.stock <= 0}
           onClick={agregarAlCarrito}
-          aria-label={`Agregar ${producto.nombre} al carrito`}
+          aria-label={`Agregar un kilo de ${producto.nombre} al carrito`}
         >
           {producto.stock > 0 ? "Agregar al carrito" : "Sin stock"}
         </button>
