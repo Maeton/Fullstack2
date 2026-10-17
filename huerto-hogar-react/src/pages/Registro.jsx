@@ -1,11 +1,9 @@
-import Header from "./components/header.jsx";
-import Footer from "./components/Footer.jsx";
-export default function Inicio() {
-  return (<>
-    <Header/>
-    
-
-   <Footer/>
-    </>
+export default function Registro() {
+  return (
+    <main className="container huerto-main">
+      <section className="huerto-section">
+        <h2>Registro</h2>
+      </section>
+    </main>
   );
 }

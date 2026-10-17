@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import logoHuerto from "../assets/img/logo-huerto.jpg";
 
 export default function Header() {
@@ -15,10 +16,35 @@ export default function Header() {
 
         <nav aria-label="Navegación principal">
           <ul className="nav justify-content-center gap-1">
-            <li><a href="index.html" className="nav-link">Inicio</a></li>
-            <li><a href="nosotros.html" className="nav-link">Nosotros</a></li>
-            <li><a href="carrito.html" className="nav-link">Carrito</a></li>
-            <li><a href="registro.html" className="nav-link">Registro</a></li>
+            <li className="nav-item">
+              <NavLink to="/" end className="nav-link">
+                Inicio
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink to="/catalogo" className="nav-link">
+                Catálogo
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink to="/nosotros" className="nav-link">
+                Nosotros
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink to="/carrito" className="nav-link">
+                Carrito
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink to="/registro" className="nav-link">
+                Registro
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </div>

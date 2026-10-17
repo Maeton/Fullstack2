@@ -1,8 +1,5 @@
-import Header from "./components/header.jsx";
-import Footer from "./components/Footer.jsx";
 export default function Nosotros() {
-  return (<>
-    <Header/>
+  return (
     <main>
       <section>
         <h2>Sobre Nosotros</h2>
@@ -16,7 +13,5 @@ export default function Nosotros() {
         </p>
       </section>
     </main>
-    <Footer/>
-    </>
   );
 }
