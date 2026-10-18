@@ -5,7 +5,7 @@ import Registro from "./Registro.jsx";
 
 describe("Registro", () => {
   const datosValidos = {
-    "Nombre completo": "Mateon Ogueira",
+    "Nombre completo": "Mateo Nogueira",
     "Correo electrónico": "mateo@correo.cl",
     "Contraseña": "clave123",
     "Teléfono de contacto": "+56912345678",

@@ -1,4 +1,5 @@
 module.exports = function (config) {
+  const medirCobertura = process.env.HUERTO_COVERAGE === "1";
   config.set({
     frameworks: ["jasmine", "webpack"],
 
@@ -29,6 +30,9 @@ module.exports = function (config) {
             use: {
               loader: "babel-loader",
               options: {
+                plugins: medirCobertura
+                  ? [["babel-plugin-istanbul", { exclude: ["**/*.spec.jsx", "**/node_modules/**"] }]]
+                  : [],
                 presets: [
                   ["@babel/preset-react", { runtime: "automatic" }],
                 ],
@@ -44,7 +48,11 @@ module.exports = function (config) {
     },
 
     browsers: ["ChromeHeadless"],
-    reporters: ["progress"],
+    reporters: medirCobertura ? ["progress", "coverage"] : ["progress"],
+    coverageReporter: {
+      dir: "coverage",
+      reporters: [{ type: "json", subdir: ".", file: "coverage-executed.json" }],
+    },
     singleRun: true,
   });
 };
