@@ -31,7 +31,7 @@ npm run dev
 npm test
 ```
 
-10 pruebas con Jasmine y Karma: productos, carrito y registro.
+10 pruebas con Vitest: productos, carrito y registro.
 
 ## Documentación
 
