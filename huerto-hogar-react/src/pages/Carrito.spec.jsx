@@ -1,4 +1,4 @@
-/* global describe, beforeEach, afterEach, it, expect, spyOn */
+import { describe, beforeEach, afterEach, it, expect, vi } from "vitest";
 
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import Carrito from "./Carrito.jsx";
@@ -9,11 +9,11 @@ describe("Carrito", () => {
   beforeEach(() => {
     almacenamiento = {};
 
-    spyOn(Storage.prototype, "getItem").and.callFake(
+    vi.spyOn(Storage.prototype, "getItem").mockImplementation(
       (clave) => almacenamiento[clave] ?? null
     );
 
-    spyOn(Storage.prototype, "setItem").and.callFake((clave, valor) => {
+    vi.spyOn(Storage.prototype, "setItem").mockImplementation((clave, valor) => {
       almacenamiento[clave] = String(valor);
     });
   });
@@ -31,7 +31,7 @@ describe("Carrito", () => {
     expect(screen.getByRole("heading", { name: "Total: $0" }).textContent)
       .toBe("Total: $0");
     expect(screen.getByRole("button", { name: "Finalizar compra" }).disabled)
-      .toBeTrue();
+      .toBe(true);
   });
 
   it("calcula los subtotales y el total de varios productos", () => {

@@ -1,4 +1,4 @@
-/* global describe, beforeEach, afterEach, it, expect, spyOn */
+import { describe, beforeEach, afterEach, it, expect, vi } from "vitest";
 
 import {
   render,
@@ -24,11 +24,11 @@ describe("ProductoCard", () => {
   beforeEach(() => {
     almacenamiento = {};
 
-    spyOn(Storage.prototype, "getItem").and.callFake(
+    vi.spyOn(Storage.prototype, "getItem").mockImplementation(
       (clave) => almacenamiento[clave] ?? null
     );
 
-    spyOn(Storage.prototype, "setItem").and.callFake(
+    vi.spyOn(Storage.prototype, "setItem").mockImplementation(
       (clave, valor) => {
         almacenamiento[clave] = String(valor);
       }
@@ -84,7 +84,7 @@ describe("ProductoCard", () => {
       name: "Agregar un kilo de Manzanas Fuji al carrito",
     });
 
-    expect(boton.disabled).toBeTrue();
+    expect(boton.disabled).toBe(true);
     expect(boton.textContent).toBe("Sin stock");
   });
 });

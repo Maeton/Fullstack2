@@ -1,5 +1,15 @@
 # React + Vite
 
+## Pruebas con Vitest
+
+Instala las dependencias con `npm install` y ejecuta:
+
+- `npm test`: ejecuta las 10 pruebas de los 3 archivos de tests.
+- `npm run test:watch`: vuelve a ejecutar las pruebas al guardar cambios.
+- `npm run test:coverage`: ejecuta las pruebas y genera cobertura en `coverage/`, con un informe HTML en `coverage/index.html`.
+
+Las pruebas usan React Testing Library con el entorno DOM de jsdom.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

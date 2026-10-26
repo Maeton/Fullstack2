@@ -1,4 +1,4 @@
-/* global describe, beforeEach, afterEach, it, expect, spyOn */
+import { describe, beforeEach, afterEach, it, expect, vi } from "vitest";
 
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import Registro from "./Registro.jsx";
@@ -30,7 +30,7 @@ describe("Registro", () => {
   beforeEach(() => {
     almacenamiento = {};
 
-    guardar = spyOn(Storage.prototype, "setItem").and.callFake((clave, valor) => {
+    guardar = vi.spyOn(Storage.prototype, "setItem").mockImplementation((clave, valor) => {
       almacenamiento[clave] = String(valor);
     });
   });
@@ -103,7 +103,9 @@ describe("Registro", () => {
 
   it("muestra un error y conserva los datos si falla el almacenamiento", () => {
     // Simula un fallo al guardar y comprueba que el usuario pueda reintentar el registro.
-    guardar.and.throwError("Almacenamiento no disponible");
+    guardar.mockImplementation(() => {
+      throw new Error("Almacenamiento no disponible");
+    });
     render(<Registro />);
     completarFormulario();
 
