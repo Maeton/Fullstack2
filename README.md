@@ -12,7 +12,7 @@ Tienda desarrollada con React, Vite y Bootstrap para Desarrollo Fullstack II.
 
 - Catálogo de frutas.
 - Carrito con cantidades, total y almacenamiento local.
-- Registro con validaciones.
+- Registro con selección de rol (Cliente, Vendedor o Administrador) y validaciones.
 - Información del emprendimiento y contacto.
 - Diseño adaptable con Bootstrap.
 

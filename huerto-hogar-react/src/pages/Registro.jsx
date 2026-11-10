@@ -1,7 +1,26 @@
 import { useState } from "react";
 import imagenRegistro from "../assets/img/pasos-registro.jpg";
 
+const ROLES = [
+  {
+    valor: "cliente",
+    etiqueta: "Cliente",
+    descripcion: "Compra productos y revisa el historial de tus pedidos.",
+  },
+  {
+    valor: "vendedor",
+    etiqueta: "Vendedor",
+    descripcion: "Publica y administra los productos de tu emprendimiento.",
+  },
+  {
+    valor: "admin",
+    etiqueta: "Administrador",
+    descripcion: "Gestiona usuarios, productos y pedidos de la tienda.",
+  },
+];
+
 const DATOS_INICIALES = {
+  rol: "",
   nombre: "",
   email: "",
   password: "",
@@ -50,6 +69,10 @@ const campos = [
 function validarFormulario(datos) {
   const errores = {};
 
+  if (!ROLES.some((rol) => rol.valor === datos.rol)) {
+    errores.rol = "Selecciona cómo deseas entrar: Cliente, Vendedor o Administrador.";
+  }
+
   if (datos.nombre.trim().length < 3) {
     errores.nombre = "El nombre debe tener al menos 3 caracteres.";
   }
@@ -78,6 +101,8 @@ export default function Registro() {
   const [errores, setErrores] = useState({});
   const [mensaje, setMensaje] = useState("");
   const [errorGuardado, setErrorGuardado] = useState("");
+
+  const rolSeleccionado = ROLES.find((rol) => rol.valor === datos.rol);
 
   function cambiarCampo(evento) {
     const { name, value } = evento.target;
@@ -116,6 +141,7 @@ export default function Registro() {
     }
 
     const usuario = {
+      rol: datos.rol,
       nombre: datos.nombre.trim(),
       email: datos.email.trim(),
       telefono: datos.telefono.trim(),
@@ -146,8 +172,8 @@ export default function Registro() {
             <h2 id="titulo-registro">Registro</h2>
 
             <p className="huerto-descripcion">
-              Ingresa tus datos de contacto y dirección de entrega.
-              Todos los campos son obligatorios.
+              Elige cómo deseas entrar y completa tus datos de contacto
+              y dirección de entrega. Todos los campos son obligatorios.
             </p>
 
             {mensaje && (
@@ -167,6 +193,50 @@ export default function Registro() {
               onSubmit={enviarFormulario}
               noValidate
             >
+              <div className="mb-4">
+                <label htmlFor="rol" className="form-label">
+                  Entrar como
+                </label>
+
+                <select
+                  id="rol"
+                  name="rol"
+                  className={`form-select ${
+                    errores.rol ? "is-invalid" : ""
+                  }`}
+                  value={datos.rol}
+                  onChange={cambiarCampo}
+                  aria-invalid={Boolean(errores.rol)}
+                  aria-describedby={
+                    errores.rol ? "error-rol" : "ayuda-rol"
+                  }
+                  required
+                >
+                  <option value="">Selecciona un tipo de cuenta</option>
+                  {ROLES.map((rol) => (
+                    <option key={rol.valor} value={rol.valor}>
+                      {rol.etiqueta}
+                    </option>
+                  ))}
+                </select>
+
+                {errores.rol ? (
+                  <span
+                    id="error-rol"
+                    className="error-mensaje"
+                    role="alert"
+                  >
+                    {errores.rol}
+                  </span>
+                ) : (
+                  <p id="ayuda-rol" className="form-text mb-0">
+                    {rolSeleccionado
+                      ? rolSeleccionado.descripcion
+                      : "Cliente compra, Vendedor publica productos y Administrador gestiona la tienda."}
+                  </p>
+                )}
+              </div>
+
               {campos.map((campo) => (
                 <div className="mb-3" key={campo.nombre}>
                   <label

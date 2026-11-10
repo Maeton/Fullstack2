@@ -23,15 +23,15 @@ Incluye Inicio, Catálogo, Nosotros, Carrito y Registro, con precios en CLP y al
 | RF-05 | Mostrar cantidades, subtotales y total. Permitir cantidades de uno a cinco y eliminar seleccionando cero. |
 | RF-06 | Guardar el carrito en `huerto_cart` y recuperarlo al abrir su página. |
 | RF-07 | Al finalizar la simulación, vaciar el carrito y confirmar; impedir finalizar si está vacío. |
-| RF-08 | Validar el registro, mostrar errores y enfocar el primer campo inválido. |
-| RF-09 | Guardar nombre, correo, teléfono y dirección en `huerto_user`, confirmar y limpiar los campos. No guardar la contraseña. Si falla el guardado, avisar y conservar los datos. |
+| RF-08 | Validar el registro (incluida la elección de rol Cliente, Vendedor o Administrador), mostrar errores y enfocar el primer campo inválido. |
+| RF-09 | Guardar rol, nombre, correo, teléfono y dirección en `huerto_user`, confirmar y limpiar los campos. No guardar la contraseña. Si falla el guardado, avisar y conservar los datos. |
 | RF-10 | Mostrar información del emprendimiento, contacto y mapa de referencia de Paine. |
 
 ## 4. Reglas y validaciones
 
 - Subtotal = precio por kilo × cantidad. Total = suma de subtotales, sin despacho ni descuentos.
 - El stock es estático. Su control se aplica al agregar; el selector del carrito permite de cero a cinco.
-- Todos los campos de registro son obligatorios: nombre de al menos 3 caracteres, correo válido, contraseña de al menos 6 caracteres, teléfono `+56` seguido de 9 dígitos y dirección de al menos 5 caracteres.
+- Todos los campos de registro son obligatorios: rol de cuenta (Cliente, Vendedor o Administrador), nombre de al menos 3 caracteres, correo válido, contraseña de al menos 6 caracteres, teléfono `+56` seguido de 9 dígitos y dirección de al menos 5 caracteres.
 - Se eliminan espacios exteriores de nombre, correo, teléfono y dirección. Un registro nuevo reemplaza el anterior en el mismo navegador.
 
 ## 5. Requisitos no funcionales

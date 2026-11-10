@@ -5,6 +5,7 @@ import Registro from "./Registro.jsx";
 
 describe("Registro", () => {
   const datosValidos = {
+    "Entrar como": "cliente",
     "Nombre completo": "Mateo Nogueira",
     "Correo electrónico": "mateo@correo.cl",
     "Contraseña": "clave123",
@@ -45,12 +46,12 @@ describe("Registro", () => {
 
     enviarFormulario();
 
-    expect(screen.getAllByRole("alert").length).toBe(5);
+    expect(screen.getAllByRole("alert").length).toBe(6);
     Object.keys(datosValidos).forEach((etiqueta) => {
       expect(screen.getByLabelText(etiqueta).getAttribute("aria-invalid"))
         .toBe("true");
     });
-    expect(document.activeElement).toBe(screen.getByLabelText("Nombre completo"));
+    expect(document.activeElement).toBe(screen.getByLabelText("Entrar como"));
     expect(guardar).not.toHaveBeenCalled();
   });
 
@@ -69,6 +70,7 @@ describe("Registro", () => {
 
     const mensajes = screen.getAllByRole("alert").map((alerta) => alerta.textContent);
     expect(mensajes).toEqual([
+      "Selecciona cómo deseas entrar: Cliente, Vendedor o Administrador.",
       "El nombre debe tener al menos 3 caracteres.",
       "Ingresa un correo electrónico válido.",
       "La contraseña debe tener al menos 6 caracteres.",
@@ -88,6 +90,7 @@ describe("Registro", () => {
 
     expect(guardar).toHaveBeenCalledTimes(1);
     expect(JSON.parse(almacenamiento.huerto_user)).toEqual({
+      rol: "cliente",
       nombre: "Mateo Nogueira",
       email: "mateo@correo.cl",
       telefono: "+56912345678",

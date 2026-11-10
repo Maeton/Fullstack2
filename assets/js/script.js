@@ -281,15 +281,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const passwordInput = document.getElementById('password');
             const telefonoInput = document.getElementById('telefono');
             const direccionInput = document.getElementById('direccion');
+            const rolInput = document.getElementById('rol');
 
             const errorNombre = document.getElementById('error-nombre');
             const errorPassword = document.getElementById('error-password');
+            const errorRol = document.getElementById('error-rol');
 
             const nombre = nombreInput.value.trim();
             const email = emailInput.value.trim();
             const password = passwordInput.value;
             const telefono = telefonoInput.value.trim();
             const direccion = direccionInput ? direccionInput.value.trim() : '';
+            const rol = rolInput ? rolInput.value : '';
+
+            if (!['cliente', 'vendedor', 'admin'].includes(rol)) {
+                errorRol.textContent = 'Selecciona cómo deseas entrar: Cliente, Vendedor o Administrador.';
+                rolInput.focus();
+                return;
+            } else {
+                errorRol.textContent = '';
+            }
 
             if (nombre.length < 3) {
                 errorNombre.textContent = 'El nombre debe tener al menos 3 caracteres.';
@@ -340,7 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           
 
-            const userData = { nombre, email, telefono, direccion };
+            const userData = { rol, nombre, email, telefono, direccion };
             localStorage.setItem('huerto_user', JSON.stringify(userData));
 
             alert('Registro completado con éxito.');

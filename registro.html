@@ -29,13 +29,24 @@
             <div class="registro-layout">
                 <div class="registro-contenido">
                     <h2>Crear Cuenta</h2>
-                    <p>Ingresa tus datos para gestionar tu perfil, compras y direcciones de despacho.</p>
+                    <p>Elige cómo deseas entrar y completa tus datos para gestionar tu perfil, compras y direcciones de despacho.</p>
                     <article>
                         <h3>¿Por qué crear una cuenta?</h3>
                         <p>Guarda tus direcciones de despacho, revisa el historial de tus pedidos y recibe ofertas exclusivas para productos orgánicos.</p>
                     </article>
 
                     <form id="form-registro" novalidate class="form-registro">
+                        <div>
+                            <label for="rol" class="form-label">Entrar como</label>
+                            <select id="rol" name="rol" class="form-input" required>
+                                <option value="">Selecciona un tipo de cuenta</option>
+                                <option value="cliente">Cliente</option>
+                                <option value="vendedor">Vendedor</option>
+                                <option value="admin">Administrador</option>
+                            </select>
+                            <span id="error-rol" class="error-mensaje"></span>
+                        </div>
+
                         <div>
                             <label for="nombre" class="form-label">Nombre Completo</label>
                             <input type="text" id="nombre" name="nombre" class="form-input" required autocomplete="name">

@@ -8,7 +8,7 @@ En la última ejecución completa con Vitest, las **10 pruebas pasaron en 3 arch
 | --- | ---: | --- |
 | ProductoCard | 3 | Datos del producto, agregar al carrito y falta de stock. |
 | Carrito | 3 | Carrito vacío, cálculo del total y eliminación. |
-| Registro | 4 | Campos vacíos, datos inválidos, registro válido y error al guardar. |
+| Registro | 4 | Campos vacíos, datos inválidos, registro válido con rol y error al guardar. |
 | **Total** | **10** | **10 correctas y 0 fallidas.** |
 
 Se simula `localStorage` con `vi.spyOn(...).mockImplementation(...)` y se verifican cambios en el DOM de jsdom. Los mocks se restauran automáticamente entre pruebas mediante `restoreMocks: true` y se limpia el DOM con `cleanup()`.
