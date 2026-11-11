@@ -50,12 +50,14 @@ export default function ProductoCard({ producto }) {
 
   return (
     <article className="card huerto-producto h-100">
-      <img
-        src={producto.img}
-        alt={producto.nombre}
-        className="card-img-top"
-        loading="lazy"
-      />
+      {producto.img && (
+        <img
+          src={producto.img}
+          alt={producto.nombre}
+          className="card-img-top"
+          loading="lazy"
+        />
+      )}
 
       <div className="card-body">
         <h3 className="card-title">{producto.nombre}</h3>

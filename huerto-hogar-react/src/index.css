@@ -231,6 +231,84 @@ body {
   border-radius: 12px;
 }
 
+/* Selector de tipo de cuenta (login) */
+
+.tipo-cuenta {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.tipo-cuenta-opciones {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.tipo-cuenta-opcion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 96px;
+  padding: 0.85rem 0.4rem;
+  color: var(--huerto-verde);
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.2;
+  background-color: #ffffff;
+  border: 1px solid var(--huerto-borde);
+  border-radius: 12px;
+  transition: transform 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.tipo-cuenta-opcion:hover {
+  border-color: var(--huerto-verde);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(27, 59, 34, 0.1);
+}
+
+.tipo-cuenta-opcion:focus-visible {
+  outline: 2px solid var(--huerto-verde);
+  outline-offset: 2px;
+}
+
+.tipo-cuenta-opcion.activa {
+  color: #ffffff;
+  background-color: var(--huerto-verde);
+  border-color: var(--huerto-verde);
+  box-shadow: 0 10px 20px rgba(27, 59, 34, 0.24);
+}
+
+.tipo-cuenta-icono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(27, 59, 34, 0.08);
+  transition: background-color 0.2s ease;
+}
+
+.tipo-cuenta-opcion.activa .tipo-cuenta-icono {
+  background-color: rgba(255, 255, 255, 0.16);
+}
+
+.tipo-cuenta-nombre {
+  text-align: center;
+}
+
+.tipo-cuenta-nota {
+  margin: 0.75rem 0 0;
+  color: var(--huerto-texto-secundario);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  opacity: 0.85;
+}
+
 /* Imágenes y video */
 
 .imagen-nosotros {

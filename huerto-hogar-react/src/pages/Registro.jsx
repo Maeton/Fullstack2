@@ -1,26 +1,8 @@
 import { useState } from "react";
 import imagenRegistro from "../assets/img/pasos-registro.jpg";
-
-const ROLES = [
-  {
-    valor: "cliente",
-    etiqueta: "Cliente",
-    descripcion: "Compra productos y revisa el historial de tus pedidos.",
-  },
-  {
-    valor: "vendedor",
-    etiqueta: "Vendedor",
-    descripcion: "Publica y administra los productos de tu emprendimiento.",
-  },
-  {
-    valor: "admin",
-    etiqueta: "Administrador",
-    descripcion: "Gestiona usuarios, productos y pedidos de la tienda.",
-  },
-];
+import { useAuth } from "../context/AuthContext.jsx";
 
 const DATOS_INICIALES = {
-  rol: "",
   nombre: "",
   email: "",
   password: "",
@@ -69,10 +51,6 @@ const campos = [
 function validarFormulario(datos) {
   const errores = {};
 
-  if (!ROLES.some((rol) => rol.valor === datos.rol)) {
-    errores.rol = "Selecciona cómo deseas entrar: Cliente, Vendedor o Administrador.";
-  }
-
   if (datos.nombre.trim().length < 3) {
     errores.nombre = "El nombre debe tener al menos 3 caracteres.";
   }
@@ -97,12 +75,12 @@ function validarFormulario(datos) {
 }
 
 export default function Registro() {
+  const { registrar } = useAuth();
   const [datos, setDatos] = useState(DATOS_INICIALES);
   const [errores, setErrores] = useState({});
   const [mensaje, setMensaje] = useState("");
   const [errorGuardado, setErrorGuardado] = useState("");
-
-  const rolSeleccionado = ROLES.find((rol) => rol.valor === datos.rol);
+  const [enviando, setEnviando] = useState(false);
 
   function cambiarCampo(evento) {
     const { name, value } = evento.target;
@@ -121,7 +99,7 @@ export default function Registro() {
     setErrorGuardado("");
   }
 
-  function enviarFormulario(evento) {
+  async function enviarFormulario(evento) {
     evento.preventDefault();
 
     setMensaje("");
@@ -140,24 +118,26 @@ export default function Registro() {
       return;
     }
 
-    const usuario = {
-      rol: datos.rol,
-      nombre: datos.nombre.trim(),
-      email: datos.email.trim(),
-      telefono: datos.telefono.trim(),
-      direccion: datos.direccion.trim(),
-    };
+    setEnviando(true);
 
     try {
-      localStorage.setItem("huerto_user", JSON.stringify(usuario));
+      await registrar({
+        nombre: datos.nombre.trim(),
+        email: datos.email.trim(),
+        password: datos.password,
+        telefono: datos.telefono.trim(),
+        direccion: datos.direccion.trim(),
+      });
 
       setDatos(DATOS_INICIALES);
       setErrores({});
-      setMensaje("Tus datos se guardaron correctamente en este navegador.");
-    } catch {
-      setErrorGuardado(
-        "No se pudieron guardar tus datos. Intenta nuevamente."
+      setMensaje(
+        "Cuenta creada. Ya iniciaste sesión como cliente y puedes comprar."
       );
+    } catch (e) {
+      setErrorGuardado(e.message);
+    } finally {
+      setEnviando(false);
     }
   }
 
@@ -172,7 +152,7 @@ export default function Registro() {
             <h2 id="titulo-registro">Registro</h2>
 
             <p className="huerto-descripcion">
-              Elige cómo deseas entrar y completa tus datos de contacto
+              Crea tu cuenta de cliente y completa tus datos de contacto
               y dirección de entrega. Todos los campos son obligatorios.
             </p>
 
@@ -193,50 +173,6 @@ export default function Registro() {
               onSubmit={enviarFormulario}
               noValidate
             >
-              <div className="mb-4">
-                <label htmlFor="rol" className="form-label">
-                  Entrar como
-                </label>
-
-                <select
-                  id="rol"
-                  name="rol"
-                  className={`form-select ${
-                    errores.rol ? "is-invalid" : ""
-                  }`}
-                  value={datos.rol}
-                  onChange={cambiarCampo}
-                  aria-invalid={Boolean(errores.rol)}
-                  aria-describedby={
-                    errores.rol ? "error-rol" : "ayuda-rol"
-                  }
-                  required
-                >
-                  <option value="">Selecciona un tipo de cuenta</option>
-                  {ROLES.map((rol) => (
-                    <option key={rol.valor} value={rol.valor}>
-                      {rol.etiqueta}
-                    </option>
-                  ))}
-                </select>
-
-                {errores.rol ? (
-                  <span
-                    id="error-rol"
-                    className="error-mensaje"
-                    role="alert"
-                  >
-                    {errores.rol}
-                  </span>
-                ) : (
-                  <p id="ayuda-rol" className="form-text mb-0">
-                    {rolSeleccionado
-                      ? rolSeleccionado.descripcion
-                      : "Cliente compra, Vendedor publica productos y Administrador gestiona la tienda."}
-                  </p>
-                )}
-              </div>
-
               {campos.map((campo) => (
                 <div className="mb-3" key={campo.nombre}>
                   <label
@@ -281,8 +217,9 @@ export default function Registro() {
               <button
                 type="submit"
                 className="btn btn-huerto w-100"
+                disabled={enviando}
               >
-                Registrar datos
+                {enviando ? "Creando cuenta…" : "Registrarme"}
               </button>
             </form>
           </div>
@@ -300,6 +237,7 @@ export default function Registro() {
               <p className="mb-0">
                 Revisa que tu correo, teléfono y dirección estén
                 escritos correctamente antes de enviar el formulario.
+                El registro público siempre crea una cuenta de cliente.
               </p>
             </div>
           </div>

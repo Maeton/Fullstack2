@@ -1,7 +1,15 @@
 import { describe, beforeEach, afterEach, it, expect, vi } from "vitest";
-
+import { MemoryRouter } from "react-router-dom";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import Carrito from "./Carrito.jsx";
+
+function renderizar() {
+  return render(
+    <MemoryRouter>
+      <Carrito />
+    </MemoryRouter>
+  );
+}
 
 describe("Carrito", () => {
   let almacenamiento;
@@ -23,8 +31,7 @@ describe("Carrito", () => {
   });
 
   it("muestra el carrito vacío y deshabilita finalizar compra", () => {
-    // Comprueba el mensaje y que no se pueda comprar sin productos.
-    render(<Carrito />);
+    renderizar();
 
     expect(screen.getByText("Tu carrito está vacío.").textContent)
       .toBe("Tu carrito está vacío.");
@@ -35,13 +42,12 @@ describe("Carrito", () => {
   });
 
   it("calcula los subtotales y el total de varios productos", () => {
-    // Comprueba que cada precio se multiplique por su cantidad y se sume al total.
     almacenamiento.huerto_cart = JSON.stringify([
-      { id: "FR001", name: "Manzanas Fuji", price: 1200, quantity: 2 },
-      { id: "FR002", name: "Naranjas", price: 1000, quantity: 3 },
+      { id: 1, name: "Manzanas Fuji", price: 1200, quantity: 2 },
+      { id: 2, name: "Naranjas", price: 1000, quantity: 3 },
     ]);
 
-    render(<Carrito />);
+    renderizar();
 
     expect(screen.getByText("Subtotal: $2.400").textContent)
       .toBe("Subtotal: $2.400");
@@ -52,13 +58,12 @@ describe("Carrito", () => {
   });
 
   it("elimina un producto al seleccionar cantidad cero", () => {
-    // Comprueba que se quite el producto, se actualice el total y se guarde el cambio.
     almacenamiento.huerto_cart = JSON.stringify([
-      { id: "FR001", name: "Manzanas Fuji", price: 1200, quantity: 2 },
-      { id: "FR002", name: "Naranjas", price: 1000, quantity: 3 },
+      { id: 1, name: "Manzanas Fuji", price: 1200, quantity: 2 },
+      { id: 2, name: "Naranjas", price: 1000, quantity: 3 },
     ]);
 
-    render(<Carrito />);
+    renderizar();
 
     fireEvent.change(screen.getAllByRole("combobox", { name: "Cantidad" })[0], {
       target: { value: "0" },
@@ -70,7 +75,7 @@ describe("Carrito", () => {
     expect(screen.getByRole("heading", { name: "Total: $3.000" }).textContent)
       .toBe("Total: $3.000");
     expect(JSON.parse(almacenamiento.huerto_cart)).toEqual([
-      { id: "FR002", name: "Naranjas", price: 1000, quantity: 3 },
+      { id: 2, name: "Naranjas", price: 1000, quantity: 3 },
     ]);
   });
 });

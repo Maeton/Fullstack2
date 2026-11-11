@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import videoHuerto from "../assets/vid/Huerto-Hogar-promocional.mp4";
 import ProductoCard from "../components/ProductoCard.jsx";
-import productos from "../data/productos.js";
+import { useProductos } from "../hooks/useProductos.js";
 
 const beneficios = [
   {
@@ -40,6 +40,7 @@ const pasos = [
 ];
 
 export default function Inicio() {
+  const { productos, cargando, error } = useProductos();
   const destacados = productos.slice(0, 3);
 
   return (
@@ -92,16 +93,26 @@ export default function Inicio() {
           Descubre algunos de los productos de nuestro catálogo.
         </p>
 
-        <div className="row g-4">
-          {destacados.map((producto) => (
-            <div
-              className="col-12 col-md-6 col-lg-4"
-              key={producto.id}
-            >
-              <ProductoCard producto={producto} />
-            </div>
-          ))}
-        </div>
+        {cargando && <p role="status">Cargando productos destacados…</p>}
+
+        {error && (
+          <p className="alert alert-warning" role="alert">
+            {error}
+          </p>
+        )}
+
+        {!cargando && !error && (
+          <div className="row g-4">
+            {destacados.map((producto) => (
+              <div
+                className="col-12 col-md-6 col-lg-4"
+                key={producto.id}
+              >
+                <ProductoCard producto={producto} />
+              </div>
+            ))}
+          </div>
+        )}
 
         <div className="text-center mt-4">
           <Link to="/catalogo" className="btn btn-huerto">

@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { apiFetch, leerError } from "../api/client";
+import { useAuth } from "../context/AuthContext.jsx";
 
 const CLAVE_CARRITO = "huerto_cart";
 const MAX_CANTIDAD = 5;
@@ -12,7 +15,7 @@ function leerCarrito() {
     return datos
       .filter(
         (producto) =>
-          typeof producto.id === "string" &&
+          Number.isInteger(Number(producto.id)) &&
           typeof producto.name === "string" &&
           Number.isFinite(producto.price) &&
           producto.price >= 0 &&
@@ -21,6 +24,7 @@ function leerCarrito() {
       )
       .map((producto) => ({
         ...producto,
+        id: Number(producto.id),
         quantity: Math.min(producto.quantity, MAX_CANTIDAD),
       }));
   } catch {
@@ -29,25 +33,27 @@ function leerCarrito() {
 }
 
 function formatoPrecio(valor) {
-  return valor.toLocaleString("es-CL", {
+  return Number(valor).toLocaleString("es-CL", {
     style: "currency",
     currency: "CLP",
   });
 }
 
 export default function Carrito() {
+  const { usuario } = useAuth();
   const [carrito, setCarrito] = useState(leerCarrito);
   const [mensaje, setMensaje] = useState("");
   const [error, setError] = useState("");
+  const [enviando, setEnviando] = useState(false);
 
-  useEffect(() => {
+  function persistir(nuevoCarrito) {
     try {
-      localStorage.setItem(CLAVE_CARRITO, JSON.stringify(carrito));
+      localStorage.setItem(CLAVE_CARRITO, JSON.stringify(nuevoCarrito));
       setError("");
     } catch {
       setError("No se pudo guardar el carrito en este navegador.");
     }
-  }, [carrito]);
+  }
 
   const total = carrito.reduce(
     (suma, producto) => suma + producto.price * producto.quantity,
@@ -67,22 +73,55 @@ export default function Carrito() {
 
     setMensaje("");
 
-    setCarrito((actual) =>
-      actual
-        .map((producto) =>
-          producto.id === id
-            ? { ...producto, quantity: cantidad }
-            : producto
-        )
-        .filter((producto) => producto.quantity > 0)
-    );
+    const actualizado = carrito
+      .map((producto) =>
+        producto.id === id
+          ? { ...producto, quantity: cantidad }
+          : producto
+      )
+      .filter((producto) => producto.quantity > 0);
+
+    persistir(actualizado);
+    setCarrito(actualizado);
   }
 
-  function finalizarCompra() {
-    if (carrito.length === 0) return;
+  async function finalizarCompra() {
+    if (carrito.length === 0 || enviando) return;
 
-    setCarrito([]);
-    setMensaje("Compra finalizada. Gracias por tu pedido.");
+    setError("");
+    setMensaje("");
+    setEnviando(true);
+
+    try {
+      const respuesta = await apiFetch("/api/pedidos", {
+        method: "POST",
+        body: JSON.stringify({
+          items: carrito.map((producto) => ({
+            productoId: producto.id,
+            cantidad: producto.quantity,
+          })),
+          direccionEntrega: usuario?.direccion ?? "",
+        }),
+      });
+
+      if (!respuesta.ok) {
+        throw new Error(await leerError(respuesta, "No se pudo crear el pedido"));
+      }
+
+      const pedido = await respuesta.json();
+
+      persistir([]);
+      setCarrito([]);
+      setMensaje(
+        `Pedido #${pedido.id} creado por ${formatoPrecio(
+          pedido.total
+        )}. Revisa su estado en "Mis pedidos".`
+      );
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setEnviando(false);
+    }
   }
 
   return (
@@ -98,7 +137,10 @@ export default function Carrito() {
 
         {mensaje && (
           <p className="alert alert-success" role="status">
-            {mensaje}
+            {mensaje}{" "}
+            <Link to="/mis-pedidos" className="alert-link">
+              Ver mis pedidos
+            </Link>
           </p>
         )}
 
@@ -167,13 +209,17 @@ export default function Carrito() {
       <section className="huerto-section">
         <h3 aria-live="polite">Total: {formatoPrecio(total)}</h3>
 
+        <p className="text-muted">
+          El total definitivo lo calcula el servidor al confirmar el pedido.
+        </p>
+
         <button
           type="button"
           className="btn btn-huerto"
-          disabled={carrito.length === 0}
+          disabled={carrito.length === 0 || enviando}
           onClick={finalizarCompra}
         >
-          Finalizar compra
+          {enviando ? "Creando pedido…" : "Finalizar compra"}
         </button>
       </section>
     </main>
