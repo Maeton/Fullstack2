@@ -20,6 +20,32 @@ const CUENTAS = [
   },
 ];
 
+const DESTINO_POR_ROL = {
+  CLIENTE: "/",
+  VENDEDOR: "/vendedor",
+  ADMIN: "/admin",
+};
+
+function destinoSeguro(rol, desde) {
+  if (!desde) return DESTINO_POR_ROL[rol] ?? "/";
+
+  if (rol === "ADMIN") {
+    return desde.startsWith("/admin") || desde.startsWith("/vendedor")
+      ? desde
+      : DESTINO_POR_ROL.ADMIN;
+  }
+
+  if (rol === "VENDEDOR") {
+    return desde.startsWith("/vendedor") ? desde : DESTINO_POR_ROL.VENDEDOR;
+  }
+
+  if (desde.startsWith("/admin") || desde.startsWith("/vendedor")) {
+    return DESTINO_POR_ROL.CLIENTE;
+  }
+
+  return desde;
+}
+
 function IconoRol({ tipo }) {
   if (tipo === "vendedor") {
     return (
@@ -110,8 +136,12 @@ export default function Login() {
     setEnviando(true);
 
     try {
-      await login(email.trim(), password, rolSeleccionado);
-      navigate(destino, { replace: true });
+      const usuarioLogueado = await login(
+        email.trim(),
+        password,
+        rolSeleccionado
+      );
+      navigate(destinoSeguro(usuarioLogueado.rol, destino), { replace: true });
     } catch (e) {
       setError(e.message);
     } finally {

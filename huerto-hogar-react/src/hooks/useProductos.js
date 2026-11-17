@@ -1,14 +1,6 @@
 import { useEffect, useState } from "react";
 import { apiFetch, leerError } from "../api/client";
-
-const IMAGENES = import.meta.glob("../assets/img/*.jpg", {
-  eager: true,
-  import: "default",
-});
-
-function imagenDe(producto) {
-  return IMAGENES[`../assets/img/${producto.imagenUrl}`] ?? "";
-}
+import { imagenProducto } from "../utils/imagenes";
 
 /**
  * Carga el catálogo público desde el backend.
@@ -35,7 +27,7 @@ export function useProductos() {
         setProductos(
           datos.map((producto) => ({
             ...producto,
-            img: imagenDe(producto),
+            img: imagenProducto(producto.imagenUrl),
           }))
         );
       })

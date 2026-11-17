@@ -12,6 +12,10 @@ export default function Header() {
   const { usuario, logout } = useAuth();
   const navigate = useNavigate();
 
+  const esCliente = usuario?.rol === "CLIENTE";
+  const esVendedor = usuario?.rol === "VENDEDOR";
+  const esAdmin = usuario?.rol === "ADMIN";
+
   async function cerrarSesion() {
     await logout();
     navigate("/", { replace: true });
@@ -31,25 +35,29 @@ export default function Header() {
 
         <nav aria-label="Navegación principal">
           <ul className="nav justify-content-center align-items-center gap-1">
-            <li className="nav-item">
-              <NavLink to="/" end className="nav-link">
-                Inicio
-              </NavLink>
-            </li>
+            {!esVendedor && (
+              <>
+                <li className="nav-item">
+                  <NavLink to="/" end className="nav-link">
+                    Inicio
+                  </NavLink>
+                </li>
 
-            <li className="nav-item">
-              <NavLink to="/catalogo" className="nav-link">
-                Catálogo
-              </NavLink>
-            </li>
+                <li className="nav-item">
+                  <NavLink to="/catalogo" className="nav-link">
+                    Catálogo
+                  </NavLink>
+                </li>
 
-            <li className="nav-item">
-              <NavLink to="/nosotros" className="nav-link">
-                Nosotros
-              </NavLink>
-            </li>
+                <li className="nav-item">
+                  <NavLink to="/nosotros" className="nav-link">
+                    Nosotros
+                  </NavLink>
+                </li>
+              </>
+            )}
 
-            {usuario?.rol === "CLIENTE" && (
+            {esCliente && (
               <>
                 <li className="nav-item">
                   <NavLink to="/carrito" className="nav-link">
@@ -64,15 +72,22 @@ export default function Header() {
               </>
             )}
 
-            {(usuario?.rol === "VENDEDOR" || usuario?.rol === "ADMIN") && (
-              <li className="nav-item">
-                <NavLink to="/vendedor" className="nav-link">
-                  Panel vendedor
-                </NavLink>
-              </li>
+            {(esVendedor || esAdmin) && (
+              <>
+                <li className="nav-item">
+                  <NavLink to="/vendedor" end className="nav-link">
+                    Productos
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to="/vendedor/ordenes" className="nav-link">
+                    Órdenes
+                  </NavLink>
+                </li>
+              </>
             )}
 
-            {usuario?.rol === "ADMIN" && (
+            {esAdmin && (
               <li className="nav-item">
                 <NavLink to="/admin" className="nav-link">
                   Administración

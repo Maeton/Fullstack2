@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { apiFetch, leerError } from "../api/client";
+import { desglosarIva } from "../utils/dinero";
 
 const CLASES_ESTADO = {
   PENDIENTE: "bg-warning text-dark",
@@ -78,38 +79,47 @@ export default function MisPedidos() {
         )}
 
         <div className="d-flex flex-column gap-3">
-          {pedidos.map((pedido) => (
-            <article className="huerto-panel" key={pedido.id}>
-              <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
-                <h3 className="h5 mb-0">Pedido #{pedido.id}</h3>
-                <span className={`badge ${CLASES_ESTADO[pedido.estado] ?? "bg-secondary"}`}>
-                  {pedido.estado}
-                </span>
-              </div>
+          {pedidos.map((pedido) => {
+            const { neto, iva } = desglosarIva(pedido.total);
 
-              <p className="mb-2 small text-muted">
-                {formatoFecha(pedido.fecha)} · Entrega: {pedido.direccionEntrega}
-              </p>
+            return (
+              <article className="huerto-panel" key={pedido.id}>
+                <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+                  <h3 className="h5 mb-0">Pedido #{pedido.id}</h3>
+                  <span className={`badge ${CLASES_ESTADO[pedido.estado] ?? "bg-secondary"}`}>
+                    {pedido.estado}
+                  </span>
+                </div>
 
-              <ul className="list-group list-group-flush mb-2">
-                {pedido.items.map((item) => (
-                  <li
-                    className="list-group-item d-flex justify-content-between px-0"
-                    key={`${pedido.id}-${item.productoId}`}
-                  >
-                    <span>
-                      {item.nombre} × {item.cantidad} kg
-                    </span>
-                    <span>{formatoPrecio(item.subtotal)}</span>
-                  </li>
-                ))}
-              </ul>
+                <p className="mb-2 small text-muted">
+                  {formatoFecha(pedido.fecha)} · Entrega: {pedido.direccionEntrega}
+                </p>
 
-              <p className="fw-bold mb-0 text-end">
-                Total: {formatoPrecio(pedido.total)}
-              </p>
-            </article>
-          ))}
+                <ul className="list-group list-group-flush mb-2">
+                  {pedido.items.map((item) => (
+                    <li
+                      className="list-group-item d-flex justify-content-between px-0"
+                      key={`${pedido.id}-${item.productoId}`}
+                    >
+                      <span>
+                        {item.nombre} × {item.cantidad} kg
+                      </span>
+                      <span>{formatoPrecio(item.subtotal)}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <p className="small text-muted text-end mb-1">
+                  Neto: {formatoPrecio(neto)} · IVA 19% incluido:{" "}
+                  {formatoPrecio(iva)}
+                </p>
+
+                <p className="fw-bold mb-0 text-end">
+                  Total: {formatoPrecio(pedido.total)}
+                </p>
+              </article>
+            );
+          })}
         </div>
       </section>
     </main>

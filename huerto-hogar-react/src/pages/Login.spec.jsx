@@ -15,6 +15,8 @@ function renderizar() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<p>INICIO</p>} />
+        <Route path="/admin" element={<p>ADMINISTRACION</p>} />
+        <Route path="/vendedor" element={<p>PANEL VENDEDOR</p>} />
       </Routes>
     </MemoryRouter>
   );
@@ -100,7 +102,7 @@ describe("Login", () => {
     });
     fireEvent.click(screen.getByRole("button", { name: "Ingresar" }));
 
-    expect(await screen.findByText("INICIO")).toBeTruthy();
+    expect(await screen.findByText("ADMINISTRACION")).toBeTruthy();
     expect(login).toHaveBeenCalledWith(
       "admin@huerto.cl",
       "Admin123!",

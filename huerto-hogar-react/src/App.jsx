@@ -8,6 +8,9 @@ import Inicio from "./pages/Inicio.jsx";
 import Catalogo from "./pages/Catalogo.jsx";
 import Nosotros from "./pages/Nosotros.jsx";
 import Carrito from "./pages/Carrito.jsx";
+import Checkout from "./pages/Checkout.jsx";
+import CompraExitosa from "./pages/CompraExitosa.jsx";
+import CompraFallida from "./pages/CompraFallida.jsx";
 import Registro from "./pages/Registro.jsx";
 import Login from "./pages/Login.jsx";
 import MisPedidos from "./pages/MisPedidos.jsx";
@@ -38,6 +41,33 @@ export default function App() {
         />
 
         <Route
+          path="/checkout"
+          element={
+            <RutaProtegida roles={["CLIENTE"]}>
+              <Checkout />
+            </RutaProtegida>
+          }
+        />
+
+        <Route
+          path="/compra-exitosa"
+          element={
+            <RutaProtegida roles={["CLIENTE"]}>
+              <CompraExitosa />
+            </RutaProtegida>
+          }
+        />
+
+        <Route
+          path="/compra-fallida"
+          element={
+            <RutaProtegida roles={["CLIENTE"]}>
+              <CompraFallida />
+            </RutaProtegida>
+          }
+        />
+
+        <Route
           path="/mis-pedidos"
           element={
             <RutaProtegida roles={["CLIENTE"]}>
@@ -50,7 +80,16 @@ export default function App() {
           path="/vendedor"
           element={
             <RutaProtegida roles={["VENDEDOR", "ADMIN"]}>
-              <PanelVendedor />
+              <PanelVendedor seccion="productos" />
+            </RutaProtegida>
+          }
+        />
+
+        <Route
+          path="/vendedor/ordenes"
+          element={
+            <RutaProtegida roles={["VENDEDOR", "ADMIN"]}>
+              <PanelVendedor seccion="ordenes" />
             </RutaProtegida>
           }
         />

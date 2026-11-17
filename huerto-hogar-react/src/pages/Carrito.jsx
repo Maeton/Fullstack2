@@ -1,54 +1,16 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { apiFetch, leerError } from "../api/client";
-import { useAuth } from "../context/AuthContext.jsx";
-
-const CLAVE_CARRITO = "huerto_cart";
-const MAX_CANTIDAD = 5;
-
-function leerCarrito() {
-  try {
-    const datos = JSON.parse(localStorage.getItem(CLAVE_CARRITO));
-
-    if (!Array.isArray(datos)) return [];
-
-    return datos
-      .filter(
-        (producto) =>
-          Number.isInteger(Number(producto.id)) &&
-          typeof producto.name === "string" &&
-          Number.isFinite(producto.price) &&
-          producto.price >= 0 &&
-          Number.isInteger(producto.quantity) &&
-          producto.quantity > 0
-      )
-      .map((producto) => ({
-        ...producto,
-        id: Number(producto.id),
-        quantity: Math.min(producto.quantity, MAX_CANTIDAD),
-      }));
-  } catch {
-    return [];
-  }
-}
-
-function formatoPrecio(valor) {
-  return Number(valor).toLocaleString("es-CL", {
-    style: "currency",
-    currency: "CLP",
-  });
-}
+import { useNavigate } from "react-router-dom";
+import { guardarCarrito, leerCarrito, MAX_CANTIDAD } from "../utils/carrito";
+import { desglosarIva, formatoPrecio } from "../utils/dinero";
 
 export default function Carrito() {
-  const { usuario } = useAuth();
+  const navigate = useNavigate();
   const [carrito, setCarrito] = useState(leerCarrito);
-  const [mensaje, setMensaje] = useState("");
   const [error, setError] = useState("");
-  const [enviando, setEnviando] = useState(false);
 
   function persistir(nuevoCarrito) {
     try {
-      localStorage.setItem(CLAVE_CARRITO, JSON.stringify(nuevoCarrito));
+      guardarCarrito(nuevoCarrito);
       setError("");
     } catch {
       setError("No se pudo guardar el carrito en este navegador.");
@@ -59,6 +21,7 @@ export default function Carrito() {
     (suma, producto) => suma + producto.price * producto.quantity,
     0
   );
+  const { neto, iva } = desglosarIva(total);
 
   function cambiarCantidad(id, valor) {
     const cantidad = Number(valor);
@@ -70,8 +33,6 @@ export default function Carrito() {
     ) {
       return;
     }
-
-    setMensaje("");
 
     const actualizado = carrito
       .map((producto) =>
@@ -85,43 +46,9 @@ export default function Carrito() {
     setCarrito(actualizado);
   }
 
-  async function finalizarCompra() {
-    if (carrito.length === 0 || enviando) return;
-
-    setError("");
-    setMensaje("");
-    setEnviando(true);
-
-    try {
-      const respuesta = await apiFetch("/api/pedidos", {
-        method: "POST",
-        body: JSON.stringify({
-          items: carrito.map((producto) => ({
-            productoId: producto.id,
-            cantidad: producto.quantity,
-          })),
-          direccionEntrega: usuario?.direccion ?? "",
-        }),
-      });
-
-      if (!respuesta.ok) {
-        throw new Error(await leerError(respuesta, "No se pudo crear el pedido"));
-      }
-
-      const pedido = await respuesta.json();
-
-      persistir([]);
-      setCarrito([]);
-      setMensaje(
-        `Pedido #${pedido.id} creado por ${formatoPrecio(
-          pedido.total
-        )}. Revisa su estado en "Mis pedidos".`
-      );
-    } catch (e) {
-      setError(e.message);
-    } finally {
-      setEnviando(false);
-    }
+  function finalizarCompra() {
+    if (carrito.length === 0) return;
+    navigate("/checkout");
   }
 
   return (
@@ -132,15 +59,6 @@ export default function Carrito() {
         {error && (
           <p className="alert alert-warning" role="alert">
             {error}
-          </p>
-        )}
-
-        {mensaje && (
-          <p className="alert alert-success" role="status">
-            {mensaje}{" "}
-            <Link to="/mis-pedidos" className="alert-link">
-              Ver mis pedidos
-            </Link>
           </p>
         )}
 
@@ -209,17 +127,21 @@ export default function Carrito() {
       <section className="huerto-section">
         <h3 aria-live="polite">Total: {formatoPrecio(total)}</h3>
 
+        <p className="mb-1">Neto: {formatoPrecio(neto)}</p>
+        <p className="mb-1">IVA 19% incluido: {formatoPrecio(iva)}</p>
+
         <p className="text-muted">
-          El total definitivo lo calcula el servidor al confirmar el pedido.
+          Los precios incluyen IVA. El total definitivo lo calcula el servidor
+          al confirmar el pedido.
         </p>
 
         <button
           type="button"
           className="btn btn-huerto"
-          disabled={carrito.length === 0 || enviando}
+          disabled={carrito.length === 0}
           onClick={finalizarCompra}
         >
-          {enviando ? "Creando pedido…" : "Finalizar compra"}
+          Finalizar compra
         </button>
       </section>
     </main>
